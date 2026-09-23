@@ -1,0 +1,6 @@
+.bundle/
+vendor/bundle/
+.git/
+.idea/
+.vscode/
+*.log

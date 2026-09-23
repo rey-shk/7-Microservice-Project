@@ -10,43 +10,43 @@ export default defineConfig({
 
     proxy: {
       "/api/auth": {
-        target: "http://127.0.0.1:8081",
+        target: process.env.AUTH_URL || "http://127.0.0.1:8081",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/auth/, ""),
       },
 
       "/api/catalog": {
-        target: "http://127.0.0.1:8082",
+        target: process.env.CATALOG_URL || "http://127.0.0.1:8082",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/catalog/, ""),
       },
 
       "/api/inventory": {
-        target: "http://127.0.0.1:8083",
+        target: process.env.INVENTORY_URL || "http://127.0.0.1:8083",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/inventory/, ""),
       },
 
       "/api/orders": {
-        target: "http://127.0.0.1:8084",
+        target: process.env.ORDER_URL || "http://127.0.0.1:8084",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/orders/, ""),
       },
 
       "/api/payments": {
-        target: "http://127.0.0.1:8085",
+        target: process.env.PAYMENT_URL || "http://127.0.0.1:8085",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/payments/, ""),
       },
 
       "/api/notifications": {
-        target: "http://127.0.0.1:8086",
+        target: process.env.NOTIFICATION_URL || "http://127.0.0.1:8086",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/notifications/, ""),
       },
 
       "/api/analytics": {
-        target: "http://127.0.0.1:8087",
+        target: process.env.ANALYTICS_URL || "http://127.0.0.1:8087",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/analytics/, ""),
       },
