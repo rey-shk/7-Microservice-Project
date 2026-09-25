@@ -101,13 +101,26 @@ pipeline {
             steps {
                 echo "Running Trivy filesystem scan (Severity: ${params.TRIVY_SEVERITY})..."
                 sh """
-                    trivy fs \
-                        --exit-code 0 \
-                        --severity ${params.TRIVY_SEVERITY} \
-                        --format table \
-                        --output trivy-fs-report.txt \
-                        .
-                    cat trivy-fs-report.txt
+                    if command -v trivy >/dev/null 2>&1; then
+                        trivy fs \
+                            --exit-code 0 \
+                            --severity ${params.TRIVY_SEVERITY} \
+                            --format table \
+                            --output trivy-fs-report.txt \
+                            .
+                    else
+                        echo "trivy CLI not found in PATH, falling back to aquasec/trivy container..."
+                        docker run --rm \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            -v "${WORKSPACE}":/workspace \
+                            aquasec/trivy:latest fs \
+                            --exit-code 0 \
+                            --severity ${params.TRIVY_SEVERITY} \
+                            --format table \
+                            --output /workspace/trivy-fs-report.txt \
+                            /workspace
+                    fi
+                    cat trivy-fs-report.txt || true
                 """
             }
         }
@@ -146,12 +159,25 @@ pipeline {
                         def reportFile = "trivy-image-${service.name}-report.txt"
                         echo "Running Trivy container scan on ${imgTag}..."
                         sh """
-                            trivy image \
-                                --exit-code 0 \
-                                --severity ${params.TRIVY_SEVERITY} \
-                                --format table \
-                                --output ${reportFile} \
-                                ${imgTag}
+                            if command -v trivy >/dev/null 2>&1; then
+                                trivy image \
+                                    --exit-code 0 \
+                                    --severity ${params.TRIVY_SEVERITY} \
+                                    --format table \
+                                    --output ${reportFile} \
+                                    ${imgTag}
+                            else
+                                echo "trivy CLI not found in PATH, scanning image via aquasec/trivy container..."
+                                docker run --rm \
+                                    -v /var/run/docker.sock:/var/run/docker.sock \
+                                    -v "${WORKSPACE}":/workspace \
+                                    aquasec/trivy:latest image \
+                                    --exit-code 0 \
+                                    --severity ${params.TRIVY_SEVERITY} \
+                                    --format table \
+                                    --output /workspace/${reportFile} \
+                                    ${imgTag}
+                            fi
                             head -n 50 ${reportFile} || true
                         """
                     }
