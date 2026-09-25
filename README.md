@@ -4,8 +4,6 @@ A complete **7-microservice**, multi-language application that runs locally **wi
 
 ## Architecture
 
-Removing added line
-
 | Port | Service | Language / Framework | Responsibility | PostgreSQL DB |
 |---|---|---|---|---|
 | 8081 | Auth Service | Java 21 + Spring Boot | Register, login, session lookup | `auth_db` |
