@@ -72,6 +72,7 @@ pipeline {
                             -Dsonar.projectKey=devopsshack-polyglot-microservices \
                             -Dsonar.projectName="DevOps Shack Polyglot Microservices" \
                             -Dsonar.sources=. \
+                            -Dsonar.java.binaries=. \
                             -Dsonar.exclusions="**/node_modules/**,**/target/**,**/.venv/**,**/bin/**,**/obj/**,**/.bundle/**,**/dist/**,**/.git/**,logs/**"
                     """
                 }
