@@ -4,7 +4,7 @@ A complete **7-microservice**, multi-language application that runs locally **wi
 
 ## Architecture
 
-Adding new line
+Removing added line
 
 | Port | Service | Language / Framework | Responsibility | PostgreSQL DB |
 |---|---|---|---|---|
