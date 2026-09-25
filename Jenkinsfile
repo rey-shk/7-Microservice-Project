@@ -17,7 +17,7 @@ pipeline {
     parameters {
         string(
             name: 'DOCKER_HUB_USER',
-            defaultValue: 'devopsshack',
+            defaultValue: 'shaik98',
             description: 'Docker Hub username or organization'
         )
         string(
@@ -38,7 +38,7 @@ pipeline {
     }
 
     environment {
-        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials'
+        DOCKER_CREDENTIALS_ID = 'docker-cred'
         SONAR_SERVER_NAME     = 'SonarQube'
         SCANNER_HOME          = tool name: 'sonar-scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     }
