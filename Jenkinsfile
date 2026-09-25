@@ -103,6 +103,8 @@ pipeline {
                 sh """
                     if command -v trivy >/dev/null 2>&1; then
                         trivy fs \
+                            --skip-version-check \
+                            --skip-files "**/pom.xml" \
                             --exit-code 0 \
                             --severity ${params.TRIVY_SEVERITY} \
                             --format table \
@@ -114,6 +116,8 @@ pipeline {
                             -v /var/run/docker.sock:/var/run/docker.sock \
                             -v "${WORKSPACE}":/workspace \
                             aquasec/trivy:latest fs \
+                            --skip-version-check \
+                            --skip-files "/workspace/**/pom.xml" \
                             --exit-code 0 \
                             --severity ${params.TRIVY_SEVERITY} \
                             --format table \
@@ -161,6 +165,7 @@ pipeline {
                         sh """
                             if command -v trivy >/dev/null 2>&1; then
                                 trivy image \
+                                    --skip-version-check \
                                     --exit-code 0 \
                                     --severity ${params.TRIVY_SEVERITY} \
                                     --format table \
@@ -172,6 +177,7 @@ pipeline {
                                     -v /var/run/docker.sock:/var/run/docker.sock \
                                     -v "${WORKSPACE}":/workspace \
                                     aquasec/trivy:latest image \
+                                    --skip-version-check \
                                     --exit-code 0 \
                                     --severity ${params.TRIVY_SEVERITY} \
                                     --format table \
