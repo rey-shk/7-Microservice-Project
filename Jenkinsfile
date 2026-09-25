@@ -196,13 +196,14 @@ pipeline {
         // ================================================================
         stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(
+                withCredentials([string(
                     credentialsId: env.DOCKER_CREDENTIALS_ID,
-                    usernameVariable: 'DOCKER_HUB_USERNAME',
-                    passwordVariable: 'DOCKER_HUB_PASSWORD'
+                    variable: 'DOCKER_HUB_PASSWORD'
                 )]) {
                     echo 'Authenticating with Docker Hub...'
-                    sh 'echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_USERNAME" --password-stdin'
+                    sh """
+                        echo "\$DOCKER_HUB_PASSWORD" | docker login -u "${params.DOCKER_HUB_USER}" --password-stdin
+                    """
 
                     script {
                         def services = getServices()
